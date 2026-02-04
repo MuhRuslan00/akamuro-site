@@ -49,11 +49,17 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   color: var(--color-text);
   background: var(--color-bg);
   font: var(--text-body);
+  overflow-x: hidden;
+  width: 100%;
 }
 
 img {
@@ -65,6 +71,7 @@ img {
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .section {
@@ -575,12 +582,48 @@ button.btn {
   gap: 4px;
   align-items: end;
   position: relative;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  background: transparent;
 }
 
-.field__label {
+.field > .field__label {
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
   font: 400 16px/1.3 var(--font-main);
   color: var(--color-text);
   white-space: nowrap;
+  transition: opacity 0.3s ease, color 0.3s ease;
+  pointer-events: none;
+}
+
+.field:hover > .field__label {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.field input:focus + .field__label,
+.field input:not(:placeholder-shown) + .field__label {
+  opacity: 0;
+}
+
+.field input::placeholder {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.field input:focus::placeholder {
+  opacity: 0;
+}
+
+.field_check .field__label {
+  position: static;
+  transform: none;
+  pointer-events: auto;
+  opacity: 1;
+  font: 400 16px/1.3 var(--font-main);
+  color: var(--color-text);
 }
 
 .field__error {
@@ -652,6 +695,13 @@ button.btn {
   color: #ffffff;
   outline: none;
   font-size: 16px;
+  font: 400 16px/1.3 var(--font-main);
+}
+
+.field input:focus {
+  background: transparent;
+  border: none;
+  outline: none;
 }
 .btn--submit {
   width: 244px;
@@ -787,6 +837,7 @@ button.btn {
   .contact {
     width: 100vw;
     margin-left: calc(50% - 50vw);
+    box-sizing: border-box;
   }
   .contact__image {
     margin: 87px -40px -40px 0;
@@ -1026,22 +1077,30 @@ button.btn {
     display: none;
   }
   .main_content {
-    padding: 60px 30px 0px;
+    padding: 60px 24px 0px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   .section {
     padding: 0 0 80px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   .hero {
-    padding: 24px 30px 40px;
+    padding: 24px 24px 40px;
     min-height: 735px;
+    background-image: linear-gradient(to bottom, #050d21 0%, transparent 25%), var(--img-hero-bg);
     background-position: 65% calc(96% + 6px);
     padding-bottom: 190px;
     background-size: auto calc(87% + -161px);
+    max-width: 100%;
+    overflow-x: hidden;
   }
   .hero__inner {
     grid-template-columns: 1fr;
     gap: 24px;
     text-align: start;
+    max-width: 100%;
   }
   .hero__title {
     font-size: 60px;
@@ -1128,28 +1187,49 @@ button.btn {
     padding-left: 32px;
   }
   .contact {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr auto;
     padding: 24px;
-    gap: 24px;
+    gap: 16px 12px;
+    width: auto;
+    margin-left: 0;
+    max-width: 100%;
   }
   .contact__form {
-    width: 100%;
+    display: contents;
   }
   .contact__form .split__title {
+    grid-column: 1;
+    grid-row: 1;
     font-size: 28px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
   .contact__form .text__contact {
+    grid-column: 1;
+    grid-row: 2;
     font-size: 14px;
-    margin: 0 0 24px;
+    margin: 0 0 8px;
+  }
+  .contact__image {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    width: 100px;
+    min-height: 100px;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 0;
+    position: static;
   }
   .contact__fields {
+    grid-column: 1 / -1;
     margin-bottom: 0;
   }
   .contact__fields .field {
     padding: 12px 4px 8px;
   }
   .contact__consent {
+    grid-column: 1 / -1;
     padding: 24px 0;
   }
   .field_check {
@@ -1166,57 +1246,18 @@ button.btn {
     font-size: 12px;
     line-height: 1.5;
   }
+  .contact__actions {
+    grid-column: 1 / -1;
+  }
   .btn--submit {
     width: 100%;
     max-width: 100%;
   }
-  .contact__image {
-    position: static;
-    width: 100%;
-    min-height: 200px;
-    background-position: center bottom;
-    background-size: contain;
-    right: auto;
-    bottom: auto;
-    margin: 0;
+  .footer {
+    border-top: none;
+    max-width: 100%;
+    overflow-x: hidden;
   }
-  .footer__inner {
-    align-items: end;
-    gap: 5px;
-  }
-
-  .footer__brand-block,
-  .footer__links,
-  .footer__privacy {
-    align-items: center;
-  }
-  .footer__links {
-    margin-top: 0;
-  }
-  .footer__privacy {
-    margin-top: 0;
-  }
-}
-
-@media (max-width: 376px) {
-  .card-grid--4 {
-    grid-template-columns: 1fr;
-  }
-  .card-grid--4 .card {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto;
-    gap: 16px;
-    align-items: start;
-  }
-  .step__dot {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .card__body {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
   .footer__inner {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1247,10 +1288,112 @@ button.btn {
   }
 }
 
+@media (max-width: 376px) {
+  .card-grid--4 {
+    grid-template-columns: 1fr;
+  }
+  .card-grid--4 .card {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
+    gap: 16px;
+    align-items: start;
+  }
+  .step__dot {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .card__body {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .footer {
+    border-top: none;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .footer__inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    justify-items: flex-end;
+  }
+  .footer__brand-block {
+    grid-column: 1;
+    align-items: flex-start;
+  }
+  .footer__links {
+    grid-column: 2;
+    align-items: flex-start;
+  }
+
+  .footer__privacy {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .footer__privacy .nav__link {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 24px;
+    gap: 16px 12px;
+    width: auto;
+    margin-left: 0;
+    max-width: 100%;
+  }
+  .contact__form {
+    display: contents;
+  }
+  .contact__form .split__title {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 28px;
+    margin-bottom: 4px;
+  }
+  .contact__form .text__contact {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 14px;
+    margin: 0 0 8px;
+  }
+  .contact__image {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    width: 100px;
+    min-height: 100px;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 0;
+    position: static;
+  }
+  .contact__fields {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+  .contact__consent {
+    grid-column: 1 / -1;
+    padding: 24px 0;
+  }
+  .contact__actions {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 321px) {
   .hero {
     padding: 16px;
     padding-bottom: 180px;
+    background-image: linear-gradient(to bottom, #050d21 0%, transparent 25%), var(--img-hero-bg);
     background-position: 65% calc(97% + 9px - 35px);
   }
   .hero__inner {
@@ -1264,6 +1407,11 @@ button.btn {
   .hero__subtitle {
     font-size: 14px;
     margin: 0 0 20px;
+  }
+  .footer {
+    border-top: none;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   .section {
     padding: 0 25px 32px;
@@ -1315,12 +1463,55 @@ button.btn {
   .faq {
     padding-top: 40px;
   }
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 20px;
+    gap: 12px 8px;
+    width: auto;
+    margin-left: 0;
+    max-width: 100%;
+  }
+  .contact__form {
+    display: contents;
+  }
+  .contact__form .split__title {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+  .contact__form .text__contact {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 12px;
+    margin: 0 0 8px;
+  }
+  .contact__image {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    width: 80px;
+    min-height: 80px;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 0;
+    position: static;
+  }
+  .contact__fields {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+  .contact__consent {
+    grid-column: 1 / -1;
+    padding: 20px 0;
+  }
+  .contact__actions {
+    grid-column: 1 / -1;
+  }
   .field_check .field__label {
     font-size: 10px;
     line-height: 1.4;
-  }
-  .contact__consent {
-    padding: 20px 0;
   }
   .field_check {
     gap: 6px;

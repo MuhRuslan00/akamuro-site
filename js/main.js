@@ -72,22 +72,22 @@
   const companyInput = form.querySelector("#company");
   const checkbox = form.querySelector("input[type='checkbox']");
 
-  // Правила валидации
+  // Validation rules
   const validationRules = {
     "full-name": {
       required: true,
       validators: [
         {
           test: (value) => value.trim().length >= 2,
-          message: "минимум 2 символа"
+          message: "minimum 2 characters"
         },
         {
           test: (value) => /^[a-zA-Zа-яА-ЯёЁ\s-]+$/.test(value.trim()),
-          message: "введите корректное имя"
+          message: "enter a valid name"
         },
         {
           test: (value) => value.trim() === value.trim().replace(/^\s+|\s+$/g, ''),
-          message: "уберите пробелы в начале/конце"
+          message: "remove leading/trailing spaces"
         }
       ]
     },
@@ -96,7 +96,7 @@
       validators: [
         {
           test: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()),
-          message: "введите корректный email"
+          message: "enter a valid email"
         }
       ]
     },
@@ -105,11 +105,11 @@
       validators: [
         {
           test: (value) => value.trim().length >= 10,
-          message: "минимум 10 символов"
+          message: "minimum 10 characters"
         },
         {
           test: (value) => value.trim().length <= 1000,
-          message: "максимум 1000 символов"
+          message: "maximum 1000 characters"
         }
       ]
     },
@@ -118,7 +118,7 @@
       validators: [
         {
           test: (value) => !value || value.trim().length >= 2,
-          message: "минимум 2 символа"
+          message: "minimum 2 characters"
         }
       ]
     }
@@ -134,9 +134,9 @@
 
     const value = input.value;
 
-    // Проверка на пустое значение для обязательных полей
+    // Check for empty value in required fields
     if (rules.required && !value.trim()) {
-      showError(field, existingError, "это обязательное поле");
+      showError(field, existingError, "this field is required");
       return false;
     }
 
@@ -247,7 +247,7 @@
       if (!existingCheckboxError) {
         const error = document.createElement("span");
         error.className = "field__error";
-        error.textContent = "необходимо согласие";
+        error.textContent = "agreement required";
         checkboxLabel.appendChild(error);
       }
       
@@ -261,12 +261,12 @@
     const submitActions = form.querySelector(".contact__actions");
     const existingSubmitError = submitActions.querySelector(".submit__error");
 
-    // Показать общее сообщение об ошибке под кнопкой при любых проблемах
+    // Show general error message below submit button for any issues
     if (!isValid) {
       if (!existingSubmitError) {
         const submitError = document.createElement("div");
         submitError.className = "submit__error";
-        submitError.textContent = "Проверьте правильность заполнения полей";
+        submitError.textContent = "Please check the form fields";
         submitActions.appendChild(submitError);
       }
       
