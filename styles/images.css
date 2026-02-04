@@ -1,0 +1,22 @@
+/* Image assets mapping for layout blocks. */
+:root {
+  --img-hero-bg: url("../assets/img/hero-bg.png");
+  --img-partnerships: url("../assets/img/partnerships.png");
+  --img-contact-side: url("../assets/img/contact-side.png");
+}
+
+/* Hero section background image */
+/* .hero__image {
+  background-image: var(--img-hero-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+} */
+
+/* Contact section side image */
+.contact__image {
+  background-image: var(--img-contact-side);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
