@@ -124,7 +124,7 @@
     }
   };
 
-  // Функция валидации поля
+  // Field validation function
   function validateField(input) {
     const field = input.closest(".field");
     const existingError = field.querySelector(".field__error");
@@ -140,13 +140,13 @@
       return false;
     }
 
-    // Если поле необязательное и пустое - валидно
+    // If field is optional and empty - valid
     if (!rules.required && !value.trim()) {
       removeError(existingError);
       return true;
     }
 
-    // Проверка по правилам валидации
+    // Check validation rules
     for (const validator of rules.validators) {
       if (!validator.test(value)) {
         showError(field, existingError, validator.message);
@@ -175,7 +175,7 @@
     }
   }
 
-  // Добавление обработчиков для всех полей
+  // Add event handlers for all fields
   [fullNameInput, emailInput, messageInput, companyInput].forEach((input) => {
     if (!input) return;
 
@@ -191,7 +191,7 @@
     });
   });
 
-  // Визуальное отображение состояния чекбокса
+  // Visual display of checkbox state
   if (checkbox) {
     const checkboxLabel = checkbox.closest(".field_check");
     
@@ -208,14 +208,14 @@
     });
   }
 
-  // Валидация при отправке формы
+  // Form submission validation
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     let isValid = true;
     let firstInvalidField = null;
 
-    // Проверка всех обязательных полей (включая пустые)
+    // Check all required fields (including empty ones)
     [fullNameInput, emailInput, messageInput].forEach((input) => {
       if (!input) return;
       const fieldValid = validateField(input);
@@ -227,7 +227,7 @@
       }
     });
 
-    // Проверка необязательного поля company (только если заполнено)
+    // Check optional company field (only if filled)
     if (companyInput && companyInput.value.trim()) {
       if (!validateField(companyInput)) {
         isValid = false;
@@ -237,7 +237,7 @@
       }
     }
 
-    // Проверка чекбокса
+    // Checkbox validation
     const checkboxLabel = checkbox.closest(".field_check");
     const existingCheckboxError = checkboxLabel.querySelector(".field__error");
     
@@ -276,17 +276,17 @@
       return;
     }
 
-    // Удалить сообщение об ошибке если форма валидна
+    // Remove error message if form is valid
     if (existingSubmitError) {
       existingSubmitError.remove();
     }
 
-    // Если всё валидно - можно отправлять форму
-    console.log("Форма валидна, отправка...");
-    // Здесь будет логика отправки формы
+    // Form is valid - ready to submit
+    console.log("Form is valid, submitting...");
+    // Form submission logic will be here
   });
 
-  // Удалять сообщение об ошибке при начале исправления
+  // Remove error message when user starts correcting
   [fullNameInput, emailInput, messageInput, companyInput].forEach((input) => {
     if (!input) return;
     input.addEventListener("input", () => {
